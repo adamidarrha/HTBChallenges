@@ -1,1 +1,6 @@
 .env
+*/.gdb*
+*/peda-session-*
+*/*.i64
+*/*/.gdb*
+*/*/peda-session-*
