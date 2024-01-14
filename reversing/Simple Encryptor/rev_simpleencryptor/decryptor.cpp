@@ -44,6 +44,23 @@ int main() {
         fileDataPointer[i] = (fileDataPointer[i] << secondRandomNumber) | (fileDataPointer[i] >> (8 - secondRandomNumber));
     }
 
+    // Open the output file
+    FILE *outputFile = fopen("flag", "wb");
+    if (outputFile == NULL) {
+        printf("Could not open output file\n");
+        return 1;
+    }
+
+    // Write the data to the output file
+    size_t bytesWritten = fwrite(fileDataPointer, 1, fileSize, outputFile);
+    if (bytesWritten != fileSize) {
+        printf("Could not write data to output file\n");
+        return 1;
+    }
+
+    // Close the output file
+    fclose(outputFile);
+
     free(fileDataPointer);
     fclose(file);
     return 0;
