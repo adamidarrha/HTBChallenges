@@ -36,13 +36,19 @@ int main() {
         return 1;
     }
 
-    for (int i = 0; i < fileSize; i++) {
-        unsigned char firstRandomNumber = rand();
-        fileDataPointer[i] = fileDataPointer[i] ^ firstRandomNumber;
-        unsigned int secondRandomNumber = rand();
-        secondRandomNumber = secondRandomNumber & 7;
-        fileDataPointer[i] = (fileDataPointer[i] << secondRandomNumber) | (fileDataPointer[i] >> (8 - secondRandomNumber));
-    }
+    for (long i = 0; i < fileSize; i++) {
+    // Generate the same random numbers in the same sequence
+    unsigned char firstRandomNumber = rand();
+    unsigned int secondRandomNumber = rand();
+    secondRandomNumber = secondRandomNumber & 7;
+
+    // Reverse the bit rotation
+    unsigned char originalByte = fileDataPointer[i];
+    originalByte = originalByte >> secondRandomNumber | originalByte << (8 - secondRandomNumber);
+
+    // Reverse the XOR operation
+    fileDataPointer[i] = originalByte ^ firstRandomNumber;
+}
 
     // Open the output file
     FILE *outputFile = fopen("flag", "wb");
